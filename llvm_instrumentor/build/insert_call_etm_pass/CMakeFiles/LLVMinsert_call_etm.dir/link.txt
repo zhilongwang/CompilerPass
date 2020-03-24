@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC   -shared  -o libLLVMinsert_call_etm.so CMakeFiles/LLVMinsert_call_etm.dir/insert_call_etm.cpp.o  -L/usr/lib/llvm-4.0/lib 

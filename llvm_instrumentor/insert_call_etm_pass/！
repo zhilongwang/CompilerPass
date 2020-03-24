@@ -1,0 +1,161 @@
+#include "llvm/Pass.h"
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/Constants.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/Instructions.h"
+#include "llvm/Support/raw_ostream.h"
+#include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/Analysis/CallGraph.h"
+#include "llvm/Analysis/CallGraphSCCPass.h"
+#include "llvm/Support/Casting.h"
+#include "llvm/IR/LegacyPassManager.h"
+#include "llvm/Transforms/IPO/PassManagerBuilder.h"
+#include "llvm/IR/MDBuilder.h"
+#include "llvm/IR/Metadata.h"
+#include "llvm/IR/Type.h"
+#include "llvm/IR/Module.h"
+#include "llvm/Support/CommandLine.h"
+#include "llvm/Target/TargetMachine.h"
+#include "llvm/Target/TargetOptions.h"
+#include <utility>
+#define DEBUG_TYPE "mba" 
+#include "llvm/Support/Debug.h"
+#include <iostream>
+#include <list>
+using namespace llvm;
+
+namespace {
+  struct AtomicCount : public ModulePass {
+
+    static char ID;
+    std::list<BasicBlock *> newBB;
+    //std::string id="1";
+    //StringRef* bbid;
+//    GlobalVariable *global_count;
+	
+  //  GlobalVariable *global_count_bar;
+	  
+    AtomicCount() : ModulePass(ID) {}
+
+    bool runOnModule(Module &M) override;
+    
+    bool doInitialization(Module &M) override;
+    //BasicBlock* CreateFailBB(BasicBlock &BB, Function &F);
+  };
+}
+/*
+BasicBlock* AtomicCount::CreateFailBB(BasicBlock &BB, Function &F){
+	LLVMContext &Context	=F.getContext();
+    	BasicBlock *FailBB	=BasicBlock::Create(Context, "ETB_Full", &F);
+	
+	return FailBB;
+}
+*/
+bool AtomicCount::runOnModule(Module &M)
+{
+	printf("preok\n");
+	Type *I32Ty = Type::getInt32Ty(M.getContext());
+	Value *atomicCounter	= M.getOrInsertGlobal("my_global_count", I32Ty);
+	
+	printf("ok\n");
+	//Value *maxCounter	= M.getOrInsertGlobal("my_global_count_bar,", I32Ty);
+	//assert(atomicCounter && "Could not declare or find atomicCounter global");		
+	auto& context		=M.getContext();
+	auto* helpTy		=FunctionType::get(Type::getVoidTy(context),Type::getInt32Ty(context),false);
+	Function *SYS_etb	= cast<Function>(M.getOrInsertFunction("__stack_chk_fail", Type::getVoidTy(context)));
+	printf("step2\n");
+	//const std::string old="2";
+	for (auto &F : M){
+		printf("enter one funcito\n");
+		for(auto &BB : F){
+			list<BasicBlock*>::iterator i;
+			bool find=false;
+			for(i = newBB.begin(); i != newBB.end(); i++){
+      				if (addr == *i){
+					printf("Processed bb\n");
+					find=true;
+					break;
+				}
+			}
+			if(find){
+				continue;
+			}
+			// Get the global variable for atomic counter
+			int num_atomic_inst = 0;
+			
+  			for (auto it = BB.begin(); it != BB.end(); it++) {
+      				num_atomic_inst++;
+			}
+			printf("step3\n");
+			if(num_atomic_inst>0){
+			
+					
+				//BB.getTerminator()->eraseFromParent();
+				BasicBlock *Head = &BB;
+  				BasicBlock *Tail = Head->splitBasicBlock(BB.getFirstInsertionPt());
+				newBB.push_front(Head);
+				newBB.push_front(Tail);
+				
+				//BB.getTerminator()->eraseFromParent();
+				//NewBB->moveAfter(&BB);
+				printf("step4\n");	
+			}
+/*			B.CreateCall(SYS_etb,B.getInt32(num_atomic_inst));
+			printf("step6\n");
+			Value *Counter	=B.CreateAdd(atomicCounter,B.getInt32(num_atomic_inst));
+		//	Value *Store	=B.CreateStore(Counter, atomicCounter);			
+			Value *Cmp		=B.CreateICmpULT(Counter, maxCounter);
+			MDNode *Weights		=MDBuilder(F.getContext()).createBranchWeights(0.9,0.1);
+			LLVMContext &Context	=F.getContext();
+			BasicBlock *FailBB	=BasicBlock::Create(Context, "Call_SYS_etm", &F);
+			IRBuilder<> BF(FailBB);
+			BF.CreateStore(ConstantInt::get(I32Ty,0,true),atomicCounter);
+			Constant *SYS_etm=
+				M.getOrInsertFunction("__stack_chk_fail", Type::getVoidTy(Context),NULL);
+			BF.CreateCall(SYS_etm);						
+*/
+			
+									
+		}
+		printf("one function finished \n");
+	}
+	
+	return true;
+}
+
+bool AtomicCount::doInitialization(Module &M)
+{
+  	IRBuilder<> Builder(M.getContext());	
+	Type *I32Ty = Type::getInt32Ty(M.getContext());
+ 	// Create atomic counter global variable
+  	GlobalVariable *global_count 	=new GlobalVariable(M, I32Ty, false, GlobalValue::CommonLinkage, ConstantInt::get(I32Ty, 0), "my_global_count");
+	
+  	GlobalVariable *global_count_bar 	=new GlobalVariable(M, I32Ty, false, GlobalValue::CommonLinkage, ConstantInt::get(I32Ty, 0), "my_global_count_bar");
+	printf("in init\n");
+	/*bbid= new StringRef(id);
+	for (auto &F : M) {
+		for (auto &BB : F) {
+				printf("OK!");
+				BB.setName(id);
+				if((BB.getName().str()).compare(id)){
+					printf("equals\n");
+				}
+				outs() << "BasicBlock:" <<(BB.getName()).str() << "\n";
+				//globalValueMap[BB.getName()] = builder.CreateGlobalStringPtr(BB.getName());
+			
+		}
+	}*/
+	return true;
+}
+
+char AtomicCount::ID = 0;
+
+// Registration to run by default using clang compiler
+static void registerMyPass(const PassManagerBuilder &, legacy::PassManagerBase &PM)
+{
+  PM.add(new AtomicCount());
+}
+
+static RegisterStandardPasses RegisterMyPass1(PassManagerBuilder::EP_ModuleOptimizerEarly, registerMyPass);
+static RegisterStandardPasses RegisterMyPass2(PassManagerBuilder::EP_EnabledOnOptLevel0, registerMyPass);

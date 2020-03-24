@@ -1,0 +1,8 @@
+/home/ubuntu/etmtaint/instrumentor/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/etmtaint/instrumentor/build/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/etmtaint/instrumentor/build/insert_call_etm_pass/CMakeFiles/edit_cache.dir
+/home/ubuntu/etmtaint/instrumentor/build/insert_call_etm_pass/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/etmtaint/instrumentor/build/insert_call_etm_pass/CMakeFiles/LLVMinsert_call_etm.dir
+/home/ubuntu/etmtaint/instrumentor/build/dynamic-rt/CMakeFiles/edit_cache.dir
+/home/ubuntu/etmtaint/instrumentor/build/dynamic-rt/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/etmtaint/instrumentor/build/dynamic-rt/CMakeFiles/dynamic-rt.dir

@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ubuntu/etmtaint/instrumentor/dynamic-rt/runtime.cpp
+stdlib.h
+-
+cstdint
+-
+unistd.h
+-
+stdio.h
+-
+sys/syscall.h
+-
+unistd.h
+-
+sys/stat.h
+-
+fcntl.h
+-
+string.h
+-
+stdint.h
+-
+stdbool.h
+-
+

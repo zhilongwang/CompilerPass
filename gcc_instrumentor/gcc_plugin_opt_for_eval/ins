@@ -1,0 +1,226 @@
+
+text:     file format elf32-littlearm
+
+
+Disassembly of section .init:
+
+0001029c <_init>:
+   1029c:	e92d4008 	push	{r3, lr}
+   102a0:	eb00001a 	bl	10310 <call_weak_fn>
+   102a4:	e8bd8008 	pop	{r3, pc}
+
+Disassembly of section .plt:
+
+000102a8 <__libc_start_main@plt-0x14>:
+   102a8:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+   102ac:	e59fe004 	ldr	lr, [pc, #4]	; 102b8 <_init+0x1c>
+   102b0:	e08fe00e 	add	lr, pc, lr
+   102b4:	e5bef008 	ldr	pc, [lr, #8]!
+   102b8:	00010d48 	.word	0x00010d48
+
+000102bc <__libc_start_main@plt>:
+   102bc:	e28fc600 	add	ip, pc, #0, 12
+   102c0:	e28cca10 	add	ip, ip, #16, 20	; 0x10000
+   102c4:	e5bcfd48 	ldr	pc, [ip, #3400]!	; 0xd48
+
+000102c8 <__gmon_start__@plt>:
+   102c8:	e28fc600 	add	ip, pc, #0, 12
+   102cc:	e28cca10 	add	ip, ip, #16, 20	; 0x10000
+   102d0:	e5bcfd40 	ldr	pc, [ip, #3392]!	; 0xd40
+
+000102d4 <abort@plt>:
+   102d4:	e28fc600 	add	ip, pc, #0, 12
+   102d8:	e28cca10 	add	ip, ip, #16, 20	; 0x10000
+   102dc:	e5bcfd38 	ldr	pc, [ip, #3384]!	; 0xd38
+
+Disassembly of section .text:
+
+000102e0 <_start>:
+   102e0:	f04f 0b00 	mov.w	fp, #0
+   102e4:	f04f 0e00 	mov.w	lr, #0
+   102e8:	bc02      	pop	{r1}
+   102ea:	466a      	mov	r2, sp
+   102ec:	b404      	push	{r2}
+   102ee:	b401      	push	{r0}
+   102f0:	f8df c010 	ldr.w	ip, [pc, #16]	; 10304 <_start+0x24>
+   102f4:	f84d cd04 	str.w	ip, [sp, #-4]!
+   102f8:	4803      	ldr	r0, [pc, #12]	; (10308 <_start+0x28>)
+   102fa:	4b04      	ldr	r3, [pc, #16]	; (1030c <_start+0x2c>)
+   102fc:	f7ff efde 	blx	102bc <__libc_start_main@plt>
+   10300:	f7ff efe8 	blx	102d4 <abort@plt>
+   10304:	00010485 	.word	0x00010485
+   10308:	0001041d 	.word	0x0001041d
+   1030c:	00010449 	.word	0x00010449
+
+00010310 <call_weak_fn>:
+   10310:	e59f3014 	ldr	r3, [pc, #20]	; 1032c <call_weak_fn+0x1c>
+   10314:	e59f2014 	ldr	r2, [pc, #20]	; 10330 <call_weak_fn+0x20>
+   10318:	e08f3003 	add	r3, pc, r3
+   1031c:	e7932002 	ldr	r2, [r3, r2]
+   10320:	e3520000 	cmp	r2, #0
+   10324:	012fff1e 	bxeq	lr
+   10328:	eaffffe6 	b	102c8 <__gmon_start__@plt>
+   1032c:	00010ce0 	.word	0x00010ce0
+   10330:	00000018 	.word	0x00000018
+
+00010334 <deregister_tm_clones>:
+   10334:	4b07      	ldr	r3, [pc, #28]	; (10354 <deregister_tm_clones+0x20>)
+   10336:	f241 0024 	movw	r0, #4132	; 0x1024
+   1033a:	f2c0 0002 	movt	r0, #2
+   1033e:	1a1b      	subs	r3, r3, r0
+   10340:	2b06      	cmp	r3, #6
+   10342:	d905      	bls.n	10350 <deregister_tm_clones+0x1c>
+   10344:	f240 0300 	movw	r3, #0
+   10348:	f2c0 0300 	movt	r3, #0
+   1034c:	b103      	cbz	r3, 10350 <deregister_tm_clones+0x1c>
+   1034e:	4718      	bx	r3
+   10350:	4770      	bx	lr
+   10352:	bf00      	nop
+   10354:	00021027 	.word	0x00021027
+
+00010358 <register_tm_clones>:
+   10358:	f241 0324 	movw	r3, #4132	; 0x1024
+   1035c:	f241 0024 	movw	r0, #4132	; 0x1024
+   10360:	f2c0 0302 	movt	r3, #2
+   10364:	f2c0 0002 	movt	r0, #2
+   10368:	1a19      	subs	r1, r3, r0
+   1036a:	1089      	asrs	r1, r1, #2
+   1036c:	eb01 71d1 	add.w	r1, r1, r1, lsr #31
+   10370:	1049      	asrs	r1, r1, #1
+   10372:	d005      	beq.n	10380 <register_tm_clones+0x28>
+   10374:	f240 0300 	movw	r3, #0
+   10378:	f2c0 0300 	movt	r3, #0
+   1037c:	b103      	cbz	r3, 10380 <register_tm_clones+0x28>
+   1037e:	4718      	bx	r3
+   10380:	4770      	bx	lr
+   10382:	bf00      	nop
+
+00010384 <__do_global_dtors_aux>:
+   10384:	b510      	push	{r4, lr}
+   10386:	f241 0424 	movw	r4, #4132	; 0x1024
+   1038a:	f2c0 0402 	movt	r4, #2
+   1038e:	7823      	ldrb	r3, [r4, #0]
+   10390:	b91b      	cbnz	r3, 1039a <__do_global_dtors_aux+0x16>
+   10392:	f7ff ffcf 	bl	10334 <deregister_tm_clones>
+   10396:	2301      	movs	r3, #1
+   10398:	7023      	strb	r3, [r4, #0]
+   1039a:	bd10      	pop	{r4, pc}
+
+0001039c <frame_dummy>:
+   1039c:	b508      	push	{r3, lr}
+   1039e:	f640 7014 	movw	r0, #3860	; 0xf14
+   103a2:	f2c0 0002 	movt	r0, #2
+   103a6:	6803      	ldr	r3, [r0, #0]
+   103a8:	b913      	cbnz	r3, 103b0 <frame_dummy+0x14>
+   103aa:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+   103ae:	e7d3      	b.n	10358 <register_tm_clones>
+   103b0:	f240 0300 	movw	r3, #0
+   103b4:	f2c0 0300 	movt	r3, #0
+   103b8:	2b00      	cmp	r3, #0
+   103ba:	d0f6      	beq.n	103aa <frame_dummy+0xe>
+   103bc:	4798      	blx	r3
+   103be:	e7f4      	b.n	103aa <frame_dummy+0xe>
+
+000103c0 <fun1>:
+   103c0:	b580      	push	{r7, lr}
+   103c2:	b082      	sub	sp, #8
+   103c4:	af00      	add	r7, sp, #0
+   103c6:	2301      	movs	r3, #1
+   103c8:	603b      	str	r3, [r7, #0]
+   103ca:	e00c      	b.n	103e6 <fun1+0x26>
+   103cc:	2003      	movs	r0, #3
+   103ce:	f000 f831 	bl	10434 <etm_handler>
+   103d2:	683b      	ldr	r3, [r7, #0]
+   103d4:	683a      	ldr	r2, [r7, #0]
+   103d6:	fb02 f303 	mul.w	r3, r2, r3
+   103da:	687a      	ldr	r2, [r7, #4]
+   103dc:	4413      	add	r3, r2
+   103de:	607b      	str	r3, [r7, #4]
+   103e0:	683b      	ldr	r3, [r7, #0]
+   103e2:	3301      	adds	r3, #1
+   103e4:	603b      	str	r3, [r7, #0]
+   103e6:	683b      	ldr	r3, [r7, #0]
+   103e8:	2b63      	cmp	r3, #99	; 0x63
+   103ea:	ddef      	ble.n	103cc <fun1+0xc>
+   103ec:	2300      	movs	r3, #0
+   103ee:	4618      	mov	r0, r3
+   103f0:	3708      	adds	r7, #8
+   103f2:	46bd      	mov	sp, r7
+   103f4:	bd80      	pop	{r7, pc}
+   103f6:	bf00      	nop
+
+000103f8 <fun2>:
+   103f8:	b580      	push	{r7, lr}
+   103fa:	b082      	sub	sp, #8
+   103fc:	af00      	add	r7, sp, #0
+   103fe:	2003      	movs	r0, #3
+   10400:	f000 f818 	bl	10434 <etm_handler>
+   10404:	683b      	ldr	r3, [r7, #0]
+   10406:	683a      	ldr	r2, [r7, #0]
+   10408:	fb02 f303 	mul.w	r3, r2, r3
+   1040c:	687a      	ldr	r2, [r7, #4]
+   1040e:	4413      	add	r3, r2
+   10410:	607b      	str	r3, [r7, #4]
+   10412:	2300      	movs	r3, #0
+   10414:	4618      	mov	r0, r3
+   10416:	3708      	adds	r7, #8
+   10418:	46bd      	mov	sp, r7
+   1041a:	bd80      	pop	{r7, pc}
+
+0001041c <main>:
+   1041c:	b580      	push	{r7, lr}
+   1041e:	af00      	add	r7, sp, #0
+   10420:	f7ff ffce 	bl	103c0 <fun1>
+   10424:	f7ff ffe8 	bl	103f8 <fun2>
+   10428:	2003      	movs	r0, #3
+   1042a:	f000 f803 	bl	10434 <etm_handler>
+   1042e:	2300      	movs	r3, #0
+   10430:	4618      	mov	r0, r3
+   10432:	bd80      	pop	{r7, pc}
+
+00010434 <etm_handler>:
+   10434:	b480      	push	{r7}
+   10436:	b083      	sub	sp, #12
+   10438:	af00      	add	r7, sp, #0
+   1043a:	6078      	str	r0, [r7, #4]
+   1043c:	bf00      	nop
+   1043e:	370c      	adds	r7, #12
+   10440:	46bd      	mov	sp, r7
+   10442:	f85d 7b04 	ldr.w	r7, [sp], #4
+   10446:	4770      	bx	lr
+
+00010448 <__libc_csu_init>:
+   10448:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+   1044c:	4607      	mov	r7, r0
+   1044e:	4e0b      	ldr	r6, [pc, #44]	; (1047c <__libc_csu_init+0x34>)
+   10450:	4688      	mov	r8, r1
+   10452:	4d0b      	ldr	r5, [pc, #44]	; (10480 <__libc_csu_init+0x38>)
+   10454:	4691      	mov	r9, r2
+   10456:	447e      	add	r6, pc
+   10458:	f7ff ef20 	blx	1029c <_init>
+   1045c:	447d      	add	r5, pc
+   1045e:	1b76      	subs	r6, r6, r5
+   10460:	10b6      	asrs	r6, r6, #2
+   10462:	d009      	beq.n	10478 <__libc_csu_init+0x30>
+   10464:	2400      	movs	r4, #0
+   10466:	3401      	adds	r4, #1
+   10468:	f855 3b04 	ldr.w	r3, [r5], #4
+   1046c:	464a      	mov	r2, r9
+   1046e:	4641      	mov	r1, r8
+   10470:	4638      	mov	r0, r7
+   10472:	4798      	blx	r3
+   10474:	42b4      	cmp	r4, r6
+   10476:	d1f6      	bne.n	10466 <__libc_csu_init+0x1e>
+   10478:	e8bd 83f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+   1047c:	00010ab6 	.word	0x00010ab6
+   10480:	00010aac 	.word	0x00010aac
+
+00010484 <__libc_csu_fini>:
+   10484:	4770      	bx	lr
+   10486:	bf00      	nop
+
+Disassembly of section .fini:
+
+00010488 <_fini>:
+   10488:	e92d4008 	push	{r3, lr}
+   1048c:	e8bd8008 	pop	{r3, pc}
